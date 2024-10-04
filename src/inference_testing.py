@@ -16,7 +16,7 @@ def predict_value(prediction_input):
 
         return output
 
-# We can now use the model to make predictions:
+# We can now use the model to make predictions (example):
 # input = 1.0 
 # input = torch.tensor([input])
 # output = predict_value(input)
@@ -38,4 +38,6 @@ def plot_model_predictions(model, data):
     plt.title('Model Predictions')
     plt.show()
 
-plot_model_predictions(model, data)
+if __name__ == '__main__':
+    # We can now see the data, along with the plotted line that the model predicts:
+    plot_model_predictions(model, data)
