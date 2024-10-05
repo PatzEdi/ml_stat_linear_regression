@@ -59,7 +59,55 @@ def plot_model_predictions_regression(model, data):
     plt.title('Model Predictions')
     plt.show()
 
+# Let's now create a function that gets the slope and the intercept of the model line based on the predictions:
+def get_model_regression_line(data):
+    x, y = data
+    predictions = get_predictions(x)
+    x_min = torch.min(x)
+    x_max = torch.max(x)
+    y_min = min(predictions) 
+    y_max = max(predictions) 
+    slope = (y_max - y_min) / (x_max - x_min)
+    intercept = y_min - slope * x_min 
+    return slope, intercept
+
+
+# We can get the actual regression line via the least squares method:
+def get_statistical_regression_line(data):
+    x, y = data
+    x_mean = torch.mean(x)
+    y_mean = torch.mean(y)
+    x_diff = x - x_mean
+    y_diff = y - y_mean
+    slope = torch.sum(x_diff * y_diff) / torch.sum(x_diff**2)
+    intercept = y_mean - slope * x_mean
+    return slope, intercept
+
+def plot_statistical_regression_line(data):
+    x, y = data
+    slope, intercept = get_statistical_regression_line(data)
+    x_min = torch.min(x)
+    x_max = torch.max(x)
+    y_min = slope * x_min + intercept
+    y_max = slope * x_max + intercept
+    plt.scatter(x, y)
+    plt.plot([x_min, x_max], [y_min, y_max], color='red')
+    plt.xlabel('sugar content (example)')
+    plt.ylabel('calories (example)')
+    plt.title('Statistical Regression Line')
+    plt.show()
+
 if __name__ == '__main__':
+    # We get the slope and the intercept of the model line:
+    slope, intercept = get_model_regression_line(data)
+    print(f'Slope: {slope}, Intercept: {intercept}')
     # We can now see the data, along with the plotted line that the model predicts:
     plot_model_predictions_regression(model, data)
+    
+    # We can also get the slope and the intercept of the actual regression line using the least squares method:
+    slope, intercept = get_statistical_regression_line(data)
+    print(f'Slope: {slope}, Intercept: {intercept}')
+    plot_statistical_regression_line(data)
+    
+    # We can also plot the actual and predicted values to inspect the model's performance:
     plot_predictions_and_actual(data)
