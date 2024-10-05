@@ -8,6 +8,7 @@ import matplotlib.pyplot as plt
 use_random_seed = False
 
 random_seed = random.randint(0, 1000) if use_random_seed else 42
+print(f'Random seed: {random_seed}')
 # We set the seed to make the results reproducible: 
 torch.random.manual_seed(random_seed)
 # Here we have a linear layer with 10 neurons, i.e. mathematical functions that take an input and produce an output.
@@ -18,6 +19,10 @@ torch.random.manual_seed(random_seed)
 # output = layer(input)
 # # We can see that the output is a tensor with 10 values!
 # print(output)
+
+# Function to count the number of parameters
+def count_parameters(model):
+    return sum(p.numel() for p in model.parameters() if p.requires_grad)
 
 # We get the data:
 x, y = generate_data(noise=0.3)
