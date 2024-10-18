@@ -36,6 +36,8 @@ def get_predictions(x):
     return predictions
 
 def plot_predictions_and_actual(data):
+    # NOTE: This function code was actually taken (and slightly modified) from one of the resources in the README: [Simple Linear Regression](https://www.kaggle.com/code/devzohaib/simple-linear-regression). Thanks to the author!
+
     x, y = data
 
     predictions = get_predictions(x)
