@@ -27,9 +27,9 @@ class TestConfigParser(unittest.TestCase):
         main_template_data = config_parser.get_main_template_data()
         self.assertIsInstance(main_template_data, dict)
 
-    def test_get_target_coords_amount(self):
+    def test_get_random_seed(self):
         """Test that the target coordinates amount is an integer."""
-        target_coords_amount = config_parser.get_target_coords_amount()
+        target_coords_amount = config_parser.get_random_seed()
         self.assertIsInstance(target_coords_amount, int)
 
     def test_get_print_data_info(self):

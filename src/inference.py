@@ -1,6 +1,6 @@
 import torch
-import machine_learning_testing as mlt
-from machine_learning_testing import count_parameters
+import train as mlt
+from train import count_parameters
 from data import show_data
 import matplotlib.pyplot as plt
 
@@ -102,7 +102,7 @@ if __name__ == '__main__':
     slope, intercept = get_model_regression_line(data)
     print("Model's Predicted Line:")
     print(f'Predicted Line: y = {slope}x + {intercept}')
-    print(f'Slope: {slope}, Intercept: {intercept}')
+    print(f'Slope: {slope}, Intercept: {intercept}\n')
     # We can now see the data, along with the plotted line that the model predicts:
     plot_model_predictions_regression(model, data)
     

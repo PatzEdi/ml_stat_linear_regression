@@ -29,7 +29,7 @@ def get_main_template_data():
     """
     return load_config()[get_selected_template()][0]
 
-def get_target_coords_amount():
+def get_random_seed():
     """
     Retrieve the 'random_seed' value from the main template data.
 
