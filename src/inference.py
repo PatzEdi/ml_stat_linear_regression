@@ -11,7 +11,7 @@ data = mlt.x, mlt.y # Yes, this data is different from when the model we are inf
 model.load_state_dict(torch.load('model.pth'))
 
 num_parameters = count_parameters(model)
-print(f'Number of parameters: {num_parameters}') # With a single linear layer, we have 2 parameters (weight and bias). It is very small, yet it can still be used to make predictions. The model size is 1 KB, which is very small.
+print(f'Number of parameters: {num_parameters}\n') # With a single linear layer, we have 2 parameters (weight and bias). It is very small, yet it can still be used to make predictions. The model size is 1 KB, which is very small.
 
 model.eval()
 
