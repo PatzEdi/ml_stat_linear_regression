@@ -1,0 +1,22 @@
+{
+	"proj_settings": [
+		{
+			"mainTemplate" : "main"
+		}
+	],
+
+	"main": [
+		{
+  		"random_seed": 42,
+  		"print_data_info" : true
+			
+		}
+	],
+	
+	"config2": [
+		{
+  		"random_seed": 42,
+			"print_data_info" : true
+		}
+	]
+}
