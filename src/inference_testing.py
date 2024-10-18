@@ -100,12 +100,16 @@ def plot_statistical_regression_line(data):
 if __name__ == '__main__':
     # We get the slope and the intercept of the model line:
     slope, intercept = get_model_regression_line(data)
+    print("Model's Predicted Line:")
+    print(f'Predicted Line: y = {slope}x + {intercept}')
     print(f'Slope: {slope}, Intercept: {intercept}')
     # We can now see the data, along with the plotted line that the model predicts:
     plot_model_predictions_regression(model, data)
     
     # We can also get the slope and the intercept of the actual regression line using the least squares method:
     slope, intercept = get_statistical_regression_line(data)
+    print("Statistical Predicted Line (Least squares method):")
+    print(f'Predicted Line: y = {slope}x + {intercept}')
     print(f'Slope: {slope}, Intercept: {intercept}')
     plot_statistical_regression_line(data)
     

@@ -49,7 +49,8 @@ if __name__ == '__main__':
             loss = criterion(output, target)
             optimizer.zero_grad() # We need to zero the gradients before computing the gradients so that the gradients are not accumulated from previous iterations.
             loss.backward()
-            optimizer.step()
+            optimizer.step() # We update the parameters of the model using the gradients computed in the backward pass.
+        
         losses.append(loss.item())
 
         # # We get the average loss
