@@ -14,6 +14,10 @@ These scripts contain the code to train (train.py) a simple linear regression mo
 
 As an example, sugar content is the explanatory variable, and the calories are the response variable. The model will predict the calories based on the sugar content. In reality though, our data is meaningless.
 
+Training loss: MSESquaredLoss
+
+![Training Loss](assets/training_loss.png)
+
 ### **Results**
 When running the inference script after we have trained our model, we get the output:
 ```

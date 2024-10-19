@@ -48,7 +48,7 @@ def plot_predictions_and_actual(data):
     plt.plot(c, predictions, color="red",  linewidth=2, linestyle="-")
     fig.suptitle('Actual and Predicted', fontsize=20)              # Plot heading 
     plt.xlabel('Index', fontsize=18)                               # X-label
-    plt.ylabel('Sales', fontsize=16)  
+    plt.ylabel('calories (example)', fontsize=16)  
     plt.show()
 # Let's create a function that iterates over the indpendent variable, and makes predictions, so that we can plot the line that the model predicts:
 def plot_model_predictions_regression(model, data):
