@@ -1,11 +1,11 @@
 # **Machine Learning and Statistical Linear Regression Analysis**
 
 ## Description
-This project is more of a study to understand the relationship between simple statistics and machine learning. The main goal is to implement a simple linear regression model using the least squares method and compare the results using PyTorch and its MSESquaredLoss function.
+This project is more of a study to understand the relationship between simple statistics and machine learning. The main goal is to implement a simple linear regression model using the least squares method and compare the results using PyTorch and its MSESquaredLoss function in an attempt to find similar lines of best fit.
 
 ## Project/Study Details
 ### **Data**
-The project has a data.py file that generates synthetic data based on a given slope. It creates a dataset composed of explanatory and response variables.
+The project has a data.py file that generates synthetic data based on a given slope and intercept. It creates a dataset composed of explanatory and response variables.
 
 You can run the data.py file to see the generated data. The data is plotted using matplotlib, of course.
 
