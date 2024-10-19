@@ -47,7 +47,7 @@ Statistical linear regression line:
 
 ![Statistic Line](assets/statistical_line.png)
 
-Then, we can also plot a graph displaying the predicted and actual values:
+Then, we can also plot a graph displaying the machine learning model's predicted values alongside the actual data values:
 
 ![Model and Actual](assets/model_preds_and_actual.png)
 
