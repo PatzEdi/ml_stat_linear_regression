@@ -11,14 +11,6 @@ random_seed = random.randint(0, 1000) if use_random_seed else 42
 print(f'Random seed: {random_seed}')
 # We set the seed to make the results reproducible: 
 torch.random.manual_seed(random_seed)
-# Here we have a linear layer with 10 neurons, i.e. mathematical functions that take an input and produce an output.
-# layer = nn.Linear(1, 10)
-# # Example input (dim = 1):
-# input = torch.tensor([1.0])
-# # We get the outputs:
-# output = layer(input)
-# # We can see that the output is a tensor with 10 values!
-# print(output)
 
 # Function to count the number of parameters
 def count_parameters(model):
@@ -53,18 +45,19 @@ if __name__ == '__main__':
         
         losses.append(loss.item())
 
-        # # We get the average loss
+        # # We get the average loss if needed:
         # average_loss = sum(losses)/len(x) 
         print("Epoch: {}/{} Loss: {:.5f}".format(epoch+1, num_epochs, loss.item()))
 
+    # Let's save the model:
+    torch.save(model.state_dict(), 'models/model.pth')
+    
+    print("Training complete!")
+    
     # We plot the losses:
     plt.plot(losses)
     plt.xlabel('Iteration')
     plt.ylabel('Loss')
     plt.title('Training Loss')
     plt.show()
-
-    # Let's save the model:
-    torch.save(model.state_dict(), 'model.pth')
     
-    print("Training complete!")

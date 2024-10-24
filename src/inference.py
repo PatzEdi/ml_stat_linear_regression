@@ -1,14 +1,13 @@
 import torch
 import train as mlt
 from train import count_parameters
-from data import show_data
 import matplotlib.pyplot as plt
 
 model = mlt.model
 data = mlt.x, mlt.y # Yes, this data is different from when the model we are inferencing was trained. However, the general pattern is the same, so we can still use it to see if the line the model predicts generally fits the data well.
 
 # We load the pth file:
-model.load_state_dict(torch.load('model.pth'))
+model.load_state_dict(torch.load('models/model.pth'))
 
 num_parameters = count_parameters(model)
 print(f'Number of parameters: {num_parameters}\n') # With a single linear layer, we have 2 parameters (weight and bias). It is very small, yet it can still be used to make predictions. The model size is 1 KB, which is very small.
@@ -16,6 +15,7 @@ print(f'Number of parameters: {num_parameters}\n') # With a single linear layer,
 model.eval()
 
 def predict_value(prediction_input):
+    """ Predicts the output (dimension 1) of the model given an input tensor. """
     with torch.no_grad():
         # We retrieve the outputs:
         output = model(prediction_input)
@@ -28,6 +28,7 @@ def predict_value(prediction_input):
 # output = predict_value(input)
 # print(output)
 def get_predictions(x):
+    """ Iterates over data x and makes predictions to append to a list. """
     predictions = []
     for i in range(len(x)):
         input = x[i].unsqueeze(0)
@@ -35,14 +36,14 @@ def get_predictions(x):
         predictions.append(output.item())
     return predictions
 
+
 def plot_predictions_and_actual(data):
+    """ Plots the actual data and the predictions made by the model. """
     # NOTE: This function code was actually taken (and slightly modified) from one of the resources in the README: [Simple Linear Regression](https://www.kaggle.com/code/devzohaib/simple-linear-regression). Thanks to the author!
-
     x, y = data
-
     predictions = get_predictions(x)
 
-    c = [i for i in range(0,100,1)]         # generating index 
+    c = list(range(0,len(x),1)) # generating index 
     fig = plt.figure()
     plt.plot(c, y, color="blue", linewidth=2, linestyle="-")
     plt.plot(c, predictions, color="red",  linewidth=2, linestyle="-")
@@ -50,8 +51,10 @@ def plot_predictions_and_actual(data):
     plt.xlabel('Index', fontsize=18)                               # X-label
     plt.ylabel('calories (example)', fontsize=16)  
     plt.show()
+
 # Let's create a function that iterates over the indpendent variable, and makes predictions, so that we can plot the line that the model predicts:
 def plot_model_predictions_regression(model, data):
+    """ Plots the linear regression line that the model predicts based on its predictions over all the data """
     x, y = data
     predictions = get_predictions(x)
     plt.scatter(x, y)
@@ -63,6 +66,7 @@ def plot_model_predictions_regression(model, data):
 
 # Let's now create a function that gets the slope and the intercept of the model line based on the predictions:
 def get_model_regression_line(data):
+    """ Computes the slope and the intercept of the regression line based on the model predictions over the data. """
     x, y = data
     predictions = get_predictions(x)
     x_min = torch.min(x)
@@ -73,10 +77,10 @@ def get_model_regression_line(data):
     intercept = y_min - slope * x_min 
     return slope, intercept
 
-
 # We can get the actual regression line via the least squares method:
 def get_statistical_regression_line(data):
-    x, y = data
+    """ Computes the slope and the intercept of the regression line based on the data."""
+    x, y = data # Every linear regression line passed through the mean of the data for both x and y.
     x_mean = torch.mean(x)
     y_mean = torch.mean(y)
     x_diff = x - x_mean
@@ -85,7 +89,9 @@ def get_statistical_regression_line(data):
     intercept = y_mean - slope * x_mean
     return slope, intercept
 
+
 def plot_statistical_regression_line(data):
+    """ Plots the statistical linear regression line based on its predictions over all the data """
     x, y = data
     slope, intercept = get_statistical_regression_line(data)
     x_min = torch.min(x)
