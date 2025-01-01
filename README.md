@@ -1,11 +1,16 @@
 # **Machine Learning and Statistical Linear Regression Analysis**
 
 ## Description
-This project is more of a study to understand the relationship between simple statistics and machine learning. The main goal is to implement a simple linear regression model using the least squares method and compare the results using PyTorch and its MSESquaredLoss function in an attempt to find similar lines of best fit.
+This project is more of a study to understand the relationship between simple statistics and machine learning. The main goal is to implement a simple linear regression model using the least squares method and compare the results using both numpy and PyTorch (read note below for more info) and the MSE loss function in an attempt to find similar lines of best fit.
+
+> [!NOTE]
+> 1. There are two directories under 'src'. One is for the numpy/scratch implementation of the linear regression model, and the other is for the PyTorch implementation. The two directories have a very similar data.py file, but one uses numpy and the other uses PyTorch to generate synthetic data (this was a choice to practice using both libraries).
+> 2. The two numpy and PyTorch implementations cover the same concept. The only real difference is that the numpy version deals with **scalars** rather than **tensors**, which is what PyTorch uses.
+> 3. So, the results are practically identical between the two. When referring to e.g. the 'inference.py' file, the two methods are interchangeable.
 
 ## Project/Study Details
 ### **Data**
-The project has a data.py file that generates synthetic data based on a given slope and intercept. It creates a dataset composed of explanatory and response variables.
+The data.py file generates synthetic data based on a given slope and intercept. It creates a data set composed of explanatory and response variables.
 
 You can run the data.py file to see the generated data. The data is plotted using matplotlib, of course.
 
@@ -14,9 +19,11 @@ These scripts contain the code to train (train.py) a simple linear regression mo
 
 As an example, sugar content is the explanatory variable, and the calories are the response variable. The model will predict the calories based on the sugar content. In reality though, our data is meaningless.
 
-Training loss: MSESquaredLoss
+Loss function used for training: MSE loss (Mean Squared Error)
 
 ![Training Loss](assets/training_loss.png)
+
+The losses plotted above are rather average epoch losses, so it uses average loss reporting.
 
 ### **Results**
 When running the inference script after we have trained our model, we get the output:
@@ -35,6 +42,8 @@ Slope: 1.8614728450775146, Intercept: 1.0692236423492432
 
 Immediately, we can see that the results are very close between the statistical linear regression model and the machine learning model.
 
+We can also gather the point-slope form of both our statistical linear regression model and the machine learning model.
+
 Of course, the results will vary based on epochs, learning rate, and other hyperparameters, even those that affect the synthetic data generated.
 
 During inference, the results are plotted using matplotlib and displayed. As an example with the seed set to 42:
@@ -51,13 +60,11 @@ Then, we can also plot a graph displaying the machine learning model's predicted
 
 ![Model and Actual](assets/model_preds_and_actual.png)
 
-We can also gather the point-slope form of both our statistical linear regression model and the machine learning model.
-
 Using MSESquared loss, the result is the same as the statistical linear regression model, which is expected, as the statistic model is based on the least squares method, which minimizes the squares of the residuals.
 
 ### **Conclusion**
 
-This study was a fun one. Simple statistics and machine learning can be easily related, and this is a good way to learn such concepts. Machine learning can be used for more complex problems, but it is always good to understand the basics.
+Simple statistics and machine learning can be easily related, and this is a good way to learn such concepts. Machine learning can be used for more complex problems, but it is always good to understand the basics.
 
 Machine learning can be easily implemented using PyTorch to create multi-variable (more than one dependent/independent variable) linear regression models, making it more powerful than simple statistics in a lot of cases.
 

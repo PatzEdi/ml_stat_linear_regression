@@ -128,7 +128,7 @@ if __name__ == "__main__":
     
     # We plot the losses:
     plt.plot(losses)
-    plt.xlabel('Iteration')
+    plt.xlabel('Epoch')
     plt.ylabel('Loss')
     plt.title('Training Loss')
     plt.show()
