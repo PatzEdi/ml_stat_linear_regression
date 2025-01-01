@@ -1,6 +1,5 @@
 import torch
 import torch.nn as nn
-from torch import functional as F
 import random
 from data import generate_data
 import matplotlib.pyplot as plt
@@ -36,25 +35,28 @@ model.train()
 if __name__ == '__main__':
     losses = [] # We use this to append losses for later use and analyzing... 
     for epoch in range(num_epochs):
+        total_epoch_loss = 0
         for i in range(len(x)): # We iterate over our data set:
             input = x[i].unsqueeze(0)
             target = y[i].unsqueeze(0)
             output = model(input)
             # We compute the loss...
             loss = criterion(output, target)
-            optimizer.zero_grad() # We need to zero the gradients before computing the gradients so that the gradients are not accumulated from previous iterations.
+            
+            optimizer.zero_grad() # We need to zero the gradients before computing the gradients so that the gradients are not accumulated from previous iterations. (This is a PyTorch thing)
             loss.backward()
             optimizer.step() # We update the parameters of the model using the gradients computed in the backward pass.
         
-        losses.append(loss.item())
+            total_epoch_loss += loss.item()
+            
+        # We get the average loss if needed:
+        average_epoch_loss = total_epoch_loss/len(x) 
+        losses.append(average_epoch_loss)
+        print("Epoch: {}/{} Loss: {:.5f}".format(epoch+1, num_epochs, average_epoch_loss))
 
-        # # We get the average loss if needed:
-        # average_loss = sum(losses)/len(x) 
-        print("Epoch: {}/{} Loss: {:.5f}".format(epoch+1, num_epochs, loss.item()))
-    
     model_save_path = os.path.join(current_script_path, '../../models/model.pth')
     # Let's save the model:
-    torch.save(model.state_dict(), 'models/model.pth')
+    torch.save(model.state_dict(), model_save_path)
     
     print("Training complete!")
     
