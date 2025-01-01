@@ -1,6 +1,7 @@
-import numpy as np
-from data import generate_data 
 import os
+import numpy as np
+import matplotlib.pyplot as plt
+from data import generate_data 
 
 use_random_seed = False 
 seed = 42 if not use_random_seed else np.random.randint(0, 1000)
@@ -84,6 +85,7 @@ class Train:
 
         x, y = generate_data(n_samples, noise=data_noise, use_random_seed=False) # Data
         
+        losses = []
         for epoch in range(n_epochs):
             total_loss = 0
             for i in range(len(x)):
@@ -108,16 +110,25 @@ class Train:
                 
             # Average loss reporting
             average_epoch_loss = total_loss/len(x)
+            losses.append(average_epoch_loss)
             print(f"Epoch: {epoch+1}/{n_epochs} Loss: {average_epoch_loss}") 
 
         print("Training complete!")
-        return model
+
+        return model, losses
 
 if __name__ == "__main__":
-    trained_model = Train.train(n_samples, n_epochs, learning_rate)
+    trained_model, losses = Train.train(n_samples, n_epochs, learning_rate)
     
     current_script_path = os.path.dirname(os.path.abspath(__file__))
     model_save_path = os.path.join(current_script_path, "../../models/model.npy")
     # We can save the weights and biases of the trained model
     np.save(model_save_path, np.array([trained_model.w, trained_model.b]))
     print(f"\nModel saved at: {model_save_path}")
+    
+    # We plot the losses:
+    plt.plot(losses)
+    plt.xlabel('Iteration')
+    plt.ylabel('Loss')
+    plt.title('Training Loss')
+    plt.show()
