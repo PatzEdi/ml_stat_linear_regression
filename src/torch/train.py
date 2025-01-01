@@ -4,6 +4,9 @@ from torch import functional as F
 import random
 from data import generate_data
 import matplotlib.pyplot as plt
+import os # We need this to save the model 
+
+current_script_path = os.path.dirname(os.path.abspath(__file__))
 
 use_random_seed = False
 
@@ -48,7 +51,8 @@ if __name__ == '__main__':
         # # We get the average loss if needed:
         # average_loss = sum(losses)/len(x) 
         print("Epoch: {}/{} Loss: {:.5f}".format(epoch+1, num_epochs, loss.item()))
-
+    
+    model_save_path = os.path.join(current_script_path, '../../models/model.pth')
     # Let's save the model:
     torch.save(model.state_dict(), 'models/model.pth')
     

@@ -1,39 +1,41 @@
-import torch
-import train as mlt
-from train import count_parameters
+import os
+import numpy as np
 import matplotlib.pyplot as plt
 
-model = mlt.model
-data = mlt.x, mlt.y # Yes, this data is different from when the model we are inferencing was trained. However, the general pattern is the same, so we can still use it to see if the line the model predicts generally fits the data well.
+from train import Linear 
+from train import n_samples, data_noise
+from data import generate_data
 
-# We load the pth file:
-model.load_state_dict(torch.load('models/model.pth'))
+# This is an inference script for our scratch model that we made in the train.py script
+# in the same directory
 
-num_parameters = count_parameters(model)
-print(f'Number of parameters: {num_parameters}\n') # With a single linear layer, we have 2 parameters (weight and bias). It is very small, yet it can still be used to make predictions. The model size is 1 KB, which is very small.
+model = Linear()
 
-model.eval()
+current_script_path = os.path.dirname(os.path.abspath(__file__))
+# Let's load the model that we trained using numpy
+
+# Set the two parameters equal to the ones we trained
+model.w, model.b = np.load(os.path.join(current_script_path, "../../models/model.npy"), allow_pickle=True, encoding='latin1')
+
+data = generate_data(n_samples, noise=data_noise)
+x, _ = data
+
 
 def predict_value(prediction_input):
     """ Predicts the output (dimension 1) of the model given an input tensor. """
-    with torch.no_grad():
-        # We retrieve the outputs:
-        output = model(prediction_input)
+    # We retrieve the outputs:
+    output = model.forward(prediction_input)
 
-        return output
+    return output
 
-# We can now use the model to make predictions (example):
-# input = 1.0 
-# input = torch.tensor([input])
-# output = predict_value(input)
-# print(output)
+
 def get_predictions(x):
     """ Iterates over data x and makes predictions to append to a list. """
     predictions = []
     for i in range(len(x)):
-        input = x[i].unsqueeze(0)
+        input = x[i]
         output = predict_value(input)
-        predictions.append(output.item())
+        predictions.append(output)
     return predictions
 
 
@@ -53,7 +55,7 @@ def plot_predictions_and_actual(data):
     plt.show()
 
 # Let's create a function that iterates over the indpendent variable, and makes predictions, so that we can plot the line that the model predicts:
-def plot_model_predictions_regression(model, data):
+def plot_model_predictions_regression(data):
     """ Plots the linear regression line that the model predicts based on its predictions over all the data """
     x, y = data
     predictions = get_predictions(x)
@@ -63,14 +65,14 @@ def plot_model_predictions_regression(model, data):
     plt.ylabel('calories (example)')
     plt.title('Model Predictions')
     plt.show()
-
+    
 # Let's now create a function that gets the slope and the intercept of the model line based on the predictions:
 def get_model_regression_line(data):
     """ Computes the slope and the intercept of the regression line based on the model predictions over the data. """
     x, y = data
     predictions = get_predictions(x)
-    x_min = torch.min(x)
-    x_max = torch.max(x)
+    x_min = np.min(x)
+    x_max = np.max(x)
     y_min = min(predictions) 
     y_max = max(predictions) 
     slope = (y_max - y_min) / (x_max - x_min)
@@ -81,11 +83,11 @@ def get_model_regression_line(data):
 def get_statistical_regression_line(data):
     """ Computes the slope and the intercept of the regression line based on the data."""
     x, y = data # Every linear regression line passed through the mean of the data for both x and y.
-    x_mean = torch.mean(x)
-    y_mean = torch.mean(y)
+    x_mean = np.mean(x)
+    y_mean = np.mean(y)
     x_diff = x - x_mean
     y_diff = y - y_mean
-    slope = torch.sum(x_diff * y_diff) / torch.sum(x_diff**2)
+    slope = np.sum(x_diff * y_diff) / np.sum(x_diff**2)
     intercept = y_mean - slope * x_mean
     return slope, intercept
 
@@ -94,8 +96,8 @@ def plot_statistical_regression_line(data):
     """ Plots the statistical linear regression line based on its predictions over all the data """
     x, y = data
     slope, intercept = get_statistical_regression_line(data)
-    x_min = torch.min(x)
-    x_max = torch.max(x)
+    x_min = np.min(x)
+    x_max = np.max(x)
     y_min = slope * x_min + intercept
     y_max = slope * x_max + intercept
     plt.scatter(x, y)
@@ -112,7 +114,7 @@ if __name__ == '__main__':
     print(f'Predicted Line: y = {slope}x + {intercept}')
     print(f'Slope: {slope}, Intercept: {intercept}\n')
     # We can now see the data, along with the plotted line that the model predicts:
-    plot_model_predictions_regression(model, data)
+    plot_model_predictions_regression(data)
     
     # We can also get the slope and the intercept of the actual regression line using the least squares method:
     slope, intercept = get_statistical_regression_line(data)
